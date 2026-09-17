@@ -1,6 +1,7 @@
 .env
 .env.local
 .env.production
+!frontend/.env.production
 *.pyc
 __pycache__/
 .pytest_cache/
