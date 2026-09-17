@@ -4,6 +4,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt && useradd --create-home --uid 10001 qarzdaftar
 COPY --chown=qarzdaftar:qarzdaftar . .
+RUN chmod +x /app/start.sh
 USER qarzdaftar
 EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

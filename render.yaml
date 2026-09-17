@@ -14,7 +14,7 @@ services:
     rootDir: backend
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    dockerCommand: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1"
+    dockerCommand: ./start.sh
     healthCheckPath: /health
     envVars:
       - key: PROJECT_NAME
