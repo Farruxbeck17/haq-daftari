@@ -16,7 +16,6 @@ services:
     dockerContext: .
     dockerCommand: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1"
     healthCheckPath: /health
-    maxShutdownDelaySeconds: 60
     envVars:
       - key: PROJECT_NAME
         value: Haq daftari
