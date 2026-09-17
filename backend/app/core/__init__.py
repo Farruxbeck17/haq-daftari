@@ -1,0 +1,1 @@
+"""Asosiy sozlamalar va xavfsizlik."""

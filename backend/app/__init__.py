@@ -1,0 +1,1 @@
+"""Haq daftari serveri."""

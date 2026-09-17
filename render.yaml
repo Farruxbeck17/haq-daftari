@@ -1,0 +1,48 @@
+databases:
+  - name: haq-daftari-db
+    databaseName: haq_daftari
+    user: haq_daftari
+    plan: free
+    region: frankfurt
+
+services:
+  - type: web
+    name: haq-daftari-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1"
+    healthCheckPath: /health
+    maxShutdownDelaySeconds: 60
+    envVars:
+      - key: PROJECT_NAME
+        value: Haq daftari
+      - key: BOT_TOKEN
+        sync: false
+      - key: BOT_USERNAME
+        value: haqdaftari_bot
+      - key: WEBAPP_URL
+        value: https://haqdaftari.vercel.app
+      - key: DATABASE_URL
+        fromDatabase:
+          name: haq-daftari-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 43200
+      - key: CORS_ORIGINS
+        value: '["https://haqdaftari.vercel.app"]'
+      - key: ENVIRONMENT
+        value: production
+      - key: AUTO_CREATE_TABLES
+        value: false
+      - key: RUN_BOT
+        value: true
+      - key: RUN_SCHEDULER
+        value: true

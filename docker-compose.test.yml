@@ -1,0 +1,24 @@
+services:
+  postgres-test:
+    image: postgres:16.4-alpine
+    environment:
+      POSTGRES_USER: qarzdaftar
+      POSTGRES_PASSWORD: qarzdaftar-test-only
+      POSTGRES_DB: qarzdaftar_test
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qarzdaftar -d qarzdaftar_test"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+  tests:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.test
+    environment:
+      TEST_DATABASE_URL: postgresql+asyncpg://qarzdaftar:qarzdaftar-test-only@postgres-test:5432/qarzdaftar_test
+      DATABASE_URL: postgresql+asyncpg://qarzdaftar:qarzdaftar-test-only@postgres-test:5432/qarzdaftar_test
+    depends_on:
+      postgres-test:
+        condition: service_healthy
